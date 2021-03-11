@@ -7,17 +7,19 @@ import {
   Route,
   Switch
 } from "react-router-dom";
-import DisplayPokemons from '../component/Pokemons/displayPokemons'
-
+import GetPokemons from '../component/pokemons/getPokemons'
+import Header from '../component/header'
+import Fight from '../component/fight'
 
 
 const Routes = () => {
     // const [isToken, setIsToken] = useState("")
     return(
         <Router>
-            {/* <Header isToken={isToken} setIsToken={setIsToken} /> */}
+            <Header/>
             <Switch>
-                <Route exact path="/"  component={DisplayPokemons} />
+                <Route exact path="/"  component={GetPokemons} />
+                <Route path="/fight" component={Fight} />
                 <Redirect to="/"></Redirect>
             </Switch>
         </Router>
