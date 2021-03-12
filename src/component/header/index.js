@@ -3,8 +3,14 @@ import styled from 'styled-components'
 import NoFight from '../../img/noFight.png'
 import YesFight from '../../img/yesFight.png'
 import { useHistory } from 'react-router-dom'
+import {favorites as favoritesActions} from '../../actions' 
+import {useDispatch, useSelector} from 'react-redux'
 
-const Header = ({favorites, setFavorites}) => {
+const Header = () => {
+    const dispatch = useDispatch()
+    const favorites = useSelector(state => state.favorites.pokemons)
+    const setFavorites = fav => dispatch(favoritesActions.set_unset_favorite(fav))
+       
     const history = useHistory();
     const [readyToFight, setReadyToFight] = useState(false)
 

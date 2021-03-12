@@ -11,24 +11,24 @@ import {
 import Header from '../component/header';
 import Fight from '../component/fight';
 import Teams from '../component/teams';
-import GetPokemons from '../component/pokemons/getPokemons';
+import GetPokemons from '../component/Pokemons/getPokemons';
+import {useDispatch, useSelector} from 'react-redux'
+import {favorites as favoritesActions} from '../actions' 
 
 const Routes = () => {
-    const [favorites, setFavorites] = useState(localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [] );
-    useEffect(()=>{
-      localStorage.setItem('favorites', JSON.stringify(favorites));
+//  const dispatch = useDispatch()
+//  const favorites = useSelector(state => state.favorites.pokemons)
+//  const setFavorites = fav => dispatch(favoritesActions.set_unset_favorite(fav))
+    
 
-    }, [favorites])
-    
-    
     return(
         <Router>
-            <Header favorites={favorites} setFavorites={setFavorites} />
+            <Header />
             <Switch>
-                <Route exact path="/" component={() => <GetPokemons favorites={favorites} setFavorites={setFavorites}/>} />
-                <Route path="/fight" component={() => <Fight favorites={favorites} setFavorites={setFavorites} />} />
-                <Route path="/teams" component={() => <Teams favorites={favorites} setFavorites={setFavorites} />} />
-                <Redirect to="/" component={() => <GetPokemons favorites={favorites} setFavorites={setFavorites}/>} ></Redirect>
+                <Route exact path="/" component={() => <GetPokemons />} />
+                <Route path="/fight" component={() => <Fight />} />
+                <Route path="/teams" component={() => <Teams />} />
+                <Redirect to="/" component={() => <GetPokemons />} ></Redirect>
             </Switch>
         </Router>
     )

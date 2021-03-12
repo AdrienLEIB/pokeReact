@@ -4,8 +4,11 @@ import TeamPokemon from '../../../img/teamPokemon.png';
 import NoTeamPokemon from '../../../img/noTeamPokemon.png'
 import backgroundDex from '../../../img/pokedex2.png'
 import {AiFillCaretRight, AiFillCaretLeft} from "react-icons/ai";
+import {useDispatch} from 'react-redux'
+import {favorites as favoriteActions} from '../../../actions'
 
-const DisplayPokemons = ({pokemons, favorites,  addFav, offSet, decrease, increase}) => {
+const DisplayPokemons = ({pokemons, favorites,  offSet, decrease, increase}) => {
+  const dispatch = useDispatch()
   return (
         <DisplayPokemonContainer>
           <PaginationContainer>
@@ -19,7 +22,7 @@ const DisplayPokemons = ({pokemons, favorites,  addFav, offSet, decrease, increa
               {pokemons.map(pokemon => (
                   <ItemContainer key={pokemon?.name} >
                     <ImgContainer src={`${pokemon?.sprites?.other["official-artwork"]?.front_default}`} />
-                    <ButtonTeam onClick={()=>addFav(pokemon)}>
+                    <ButtonTeam onClick={()=>dispatch(favoriteActions.set_unset_favorite(pokemon))}>
                       {favorites.filter(e => e.name === pokemon?.name).length === 0 ? 
                         (<ImgTeamPokemon src={NoTeamPokemon} />) : 
                         (<ImgTeamPokemon src={TeamPokemon}/>)

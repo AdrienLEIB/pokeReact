@@ -3,12 +3,26 @@ import axios from "axios";
 import styled from 'styled-components'
 import {useHistory} from 'react-router-dom'; 
 import DisplayPokemons from '../displayPokemons'
+import {useSelector, useDispatch} from 'react-redux'
 
-const GetPokemons = React.memo(({favorites, setFavorites}) => {
+import Header from '../../header';
+
+import {pokemons} from '../../../actions'
+
+const GetPokemons = React.memo(({}) => {
+    const pokemonList = useSelector(state=> state.pokemons.list)
+    const favorites = useSelector(state=> state.favorites.pokemons)
+    const dispatch = useDispatch()
+    console.log(favorites)
     const [basePokemons, setBasePokemons] = useState([]);
-    const [pokemons, setPokemons] = useState([]);
+    // const [pokemons, setPokemons] = useState([]);
     const [offSet, setOffSet] = useState(0)
     const [isLoading, setLoading] = useState(true);
+    // const [favorites, setFavorites] = useState(localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [] );
+    useEffect(()=>{
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+
+    }, [favorites])
     
 
     const getPokemons = () =>{
@@ -35,7 +49,8 @@ const GetPokemons = React.memo(({favorites, setFavorites}) => {
             ))
         )
         const cleanpokemons = await Promise.resolve(promisepokemons);
-        setPokemons([...cleanpokemons])
+        // setPokemons([...cleanpokemons])
+        dispatch( pokemons.display_pokemon(cleanpokemons))
     }
 
     const getPokemonDetail = (u) =>{
@@ -52,24 +67,24 @@ const GetPokemons = React.memo(({favorites, setFavorites}) => {
     }
 
 
-    const addFav = (pokemon) => {
-        const checkId = favorites.filter(e => e.name === pokemon.name)
-        if (favorites.length >=6 && checkId.length === 0){
-            alert("Attention !! Votre équipe est déjà complète.");
-            return
-        }
+    // const addFav = (pokemon) => {
+    //     const checkId = favorites.filter(e => e.name === pokemon.name)
+    //     if (favorites.length >=6 && checkId.length === 0){
+    //         alert("Attention !! Votre équipe est déjà complète.");
+    //         return
+    //     }
 
-        if (checkId.length === 0 && favorites.length < 6) {
-            setFavorites([...favorites, {'name': pokemon.name, 'sprites': pokemon.sprites, 'life': pokemon?.stats[0]?.base_stat, 'maxLife':pokemon?.stats[0]?.base_stat, "power": pokemon?.stats[1]?.base_stat}]);
+    //     if (checkId.length === 0 && favorites.length < 6) {
+    //         setFavorites([...favorites, {'name': pokemon.name, 'sprites': pokemon.sprites, 'life': pokemon?.stats[0]?.base_stat, 'maxLife':pokemon?.stats[0]?.base_stat, "power": pokemon?.stats[1]?.base_stat}]);
             
-        }
-        else{
-            const newFavorites = favorites.filter(h => h.name !==  pokemon.name);
-            setFavorites(newFavorites);
+    //     }
+    //     else{
+    //         const newFavorites = favorites.filter(h => h.name !==  pokemon.name);
+    //         setFavorites(newFavorites);
                 
-        }
+    //     }
         
-    }
+    // }
 
     const decrease = () => {
         setOffSet(offSet - 20)
@@ -92,7 +107,7 @@ const GetPokemons = React.memo(({favorites, setFavorites}) => {
 
     return (
         <>
-            <DisplayPokemons pokemons={pokemons} favorites={favorites} addFav={addFav} offSet={offSet} decrease={decrease} increase={increase} />
+            <DisplayPokemons pokemons={pokemonList} favorites={favorites}  offSet={offSet} decrease={decrease} increase={increase} />
         </>
     );
 });

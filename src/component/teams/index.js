@@ -1,18 +1,17 @@
 import React, {} from 'react';
 import DisplayTeams from './displayTeams'
+import {useDispatch, useSelector} from 'react-redux'
+import {favorites as favoritesActions} from '../../actions' 
 
-const Teams = ({favorites, setFavorites}) => {
+const Teams = ({}) => {
     
-
-    const removeFav = (pokemon) => {
-        const newFavorites = favorites.filter(h => h.name !==  pokemon.name);
-        setFavorites(newFavorites);
-        
-    }
+ const dispatch = useDispatch()
+ const favorites = useSelector(state => state.favorites.pokemons)
+ const setFavorites = fav => dispatch(favoritesActions.set_unset_favorite(fav))
 
     return (
         <>
-            <DisplayTeams favorites={favorites} removeFav={removeFav} />
+            <DisplayTeams favorites={favorites} removeFav={setFavorites} />
         </>
     );
 };

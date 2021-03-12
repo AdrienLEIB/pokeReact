@@ -3,9 +3,15 @@ import axios from "axios";
 import DisplayArceus from './displayArceus'
 import DisplayTeams from './displayTeams'
 import styled from 'styled-components'
+import {useDispatch, useSelector} from 'react-redux'
+import {favorites as favoritesActions} from '../../actions' 
 
 
-const Fight = ({favorites, setFavorites}) => {
+const Fight = () => {
+    const dispatch = useDispatch()
+    const favorites = useSelector(state => state.favorites.pokemons)
+    const setFavorites = fav => dispatch(favoritesActions.set_unset_favorite(fav))
+    const [tempFav, setTempFav] = useState(favorites)
     const [arceus, setArceus] = useState();
     const [arceusMaxLife, setArceusMaxLife] = useState();
     const [arceusLife, setArceusLife] =  useState();
@@ -58,7 +64,8 @@ const Fight = ({favorites, setFavorites}) => {
                 setPokemonWhoFight(pokemon);
             }
         })
-        setFavorites(favorites);
+        console.log(favorites)
+        setTempFav(favorites);
     }
 
     const healAllpokemons = () =>{
@@ -66,7 +73,7 @@ const Fight = ({favorites, setFavorites}) => {
         favorites.map(pokemon => {
             pokemon.life = pokemon.maxLife;
         })
-        setFavorites(favorites);
+        setTempFav(favorites);
         setArceusLife(arceusMaxLife);
     }
 
@@ -101,7 +108,7 @@ const Fight = ({favorites, setFavorites}) => {
             <DisplayArceus arceus={arceus} arceusLife={arceusLife} arceusMaxLife={arceusMaxLife} />
             <DisplayTeams pokemonWhoFight={pokemonWhoFight}  favorites={favorites} changePokemonWhoFight={changePokemonWhoFight}  />
             <ButtonFight disabled={pokemonWhoFight.life <= 0} onClick={()=>itIsTimeToFight()}> Attaque </ButtonFight>
-            <RestartFight disabled={favorites.filter(e => e.life > 0).length > 0 && arceusLife !== 0 } onClick={()=>healAllpokemons()}> Recommencer </RestartFight>
+            <RestartFight disabled={tempFav.filter(e => e.life > 0).length > 0 && arceusLife !== 0 } onClick={()=>healAllpokemons()}> Recommencer </RestartFight>
         </div>
     );
 };
