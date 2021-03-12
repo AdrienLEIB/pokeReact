@@ -8,7 +8,6 @@ import NoTeamPokemon from '../../img/noTeamPokemon.png';
 
 const Teams = ({favorites, setFavorites}) => {
     
-  const history = useHistory();
 
     useEffect(()=>{
       localStorage.setItem('favorites', JSON.stringify(favorites));

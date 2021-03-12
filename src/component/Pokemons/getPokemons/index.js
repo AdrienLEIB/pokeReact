@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from "axios";
 import styled from 'styled-components'
 import {useHistory} from 'react-router-dom'; 
@@ -8,7 +8,6 @@ import DisplayPokemons from '../displayPokemons'
         const [basePokemons, setBasePokemons] = useState([]);
         const [pokemons, setPokemons] = useState([]);
         const [offSet, setOffSet] = useState(0)
-        const history = useHistory();
         const [isLoading, setLoading] = useState(true);
         
 
@@ -23,11 +22,9 @@ import DisplayPokemons from '../displayPokemons'
             })
             .then(res =>{
                 setBasePokemons(res.data.results);
-                setLoading(false);
                 
             }).catch(err => {
                 console.log(err);
-                setLoading(false);
             })
         }
 
@@ -58,7 +55,7 @@ import DisplayPokemons from '../displayPokemons'
 
 
         const addFav = (pokemon) => {
-            console.log("Je suis la ")
+            console.log(offSet);
             const checkId = favorites.filter(e => e.name === pokemon.name)
             if (favorites.length >=6 && checkId.length === 0){
                 alert("Attention !! Votre équipe est déjà complète.");
@@ -83,9 +80,13 @@ import DisplayPokemons from '../displayPokemons'
         const increase = () => {
             setOffSet(offSet + 20)
         }
-        
+ 
+
         useEffect(() => {
-            console.log(offSet);
+            console.log("_________________________");
+            console.log("le code pense que le offset bouge mais il ne bouge pas");
+            console.log(offSet)
+            console.log("__________________________________")
             getPokemons();
         }, [offSet])
 
