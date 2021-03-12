@@ -1,15 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import axios from "axios";
 import styled from 'styled-components'
 import {useHistory} from 'react-router-dom'; 
 import DisplayPokemons from '../displayPokemons'
 
-    const GetPokemons = () => {
+    const GetPokemons = ({favorites, setFavorites}) => {
         const [basePokemons, setBasePokemons] = useState([]);
         const [pokemons, setPokemons] = useState([]);
         const [offSet, setOffSet] = useState(0)
         const history = useHistory();
-        const [favorites, setFavorites] = useState(localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [] );
         const [isLoading, setLoading] = useState(true);
         
 
@@ -50,7 +49,6 @@ import DisplayPokemons from '../displayPokemons'
                 }
             })
             .then(res =>{
-                console.log(res.data);
                 return res.data;
             
             }).catch(err => {
@@ -60,14 +58,14 @@ import DisplayPokemons from '../displayPokemons'
 
 
         const addFav = (pokemon) => {
+            console.log("Je suis la ")
             const checkId = favorites.filter(e => e.name === pokemon.name)
-            console.log(checkId);
             if (favorites.length >=6 && checkId.length === 0){
                 alert("Attention !! Votre équipe est déjà complète.");
                 return
             }
 
-            if (checkId.length === 0 && favorites.length <= 6) {
+            if (checkId.length === 0 && favorites.length < 6) {
                 setFavorites([...favorites, {'name': pokemon.name, 'sprites': pokemon.sprites, 'life': pokemon?.stats[0]?.base_stat, 'maxLife':pokemon?.stats[0]?.base_stat, "power": pokemon?.stats[1]?.base_stat}]);
                 
             }
@@ -87,6 +85,7 @@ import DisplayPokemons from '../displayPokemons'
         }
         
         useEffect(() => {
+            console.log(offSet);
             getPokemons();
         }, [offSet])
 
@@ -96,14 +95,9 @@ import DisplayPokemons from '../displayPokemons'
 
 
 
-        useEffect(()=>{
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-
-        }, [favorites])
-
     return (
         <>
-            <DisplayPokemons pokemons={pokemons} favorites={favorites} history={history}  addFav={addFav} offSet={offSet} decrease={decrease} increase={increase} />
+            <DisplayPokemons pokemons={pokemons} favorites={favorites}  addFav={addFav} offSet={offSet} decrease={decrease} increase={increase} />
         </>
     );
 };

@@ -6,24 +6,23 @@ import DisplayTeams from './displayTeams'
 import TeamPokemon from '../../img/teamPokemon.png';
 import NoTeamPokemon from '../../img/noTeamPokemon.png';
 
-const Teams = (props) => {
-
-    const [pokemons, setPokemons] = useState(localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [] );
-    const history = useHistory();
+const Teams = ({favorites, setFavorites}) => {
+    
+  const history = useHistory();
 
     useEffect(()=>{
-      localStorage.setItem('favorites', JSON.stringify(pokemons));
+      localStorage.setItem('favorites', JSON.stringify(favorites));
 
-    }, [pokemons])
+    }, [favorites])
 
     const removeFav = (pokemon) => {
-        const newFavorites = pokemons.filter(h => h.name !==  pokemon.name);
-        setPokemons(newFavorites);
+        const newFavorites = favorites.filter(h => h.name !==  pokemon.name);
+        setFavorites(newFavorites);
     }
 
     return (
         <>
-            <DisplayTeams pokemons={pokemons} removeFav={removeFav} />
+            <DisplayTeams pokemons={favorites} removeFav={removeFav} />
         </>
     );
 };

@@ -5,20 +5,16 @@ import TeamPokemon from '../../../img/teamPokemon.png';
 import NoTeamPokemon from '../../../img/noTeamPokemon.png';
 
 
-const DisplayTeams = ({pokemonWhoFight, favorites, changePokemonWhoFight, pokemonWhoFightLife, pokemonWhoFightMaxLife}) => {
-  useEffect(() => {
-    // console.log(pokemonWhoFightLife);
- }, [pokemonWhoFightLife])  
+const DisplayTeams = ({pokemonWhoFight, favorites, changePokemonWhoFight}) => {
   return (
         <TeamsContainer>
             <PokemonContainer>
                 <ImgContainer src={`${pokemonWhoFight?.sprites?.back_default}`} />
-                <ProgressBar value={pokemonWhoFightLife} max={pokemonWhoFightMaxLife}/>
+                <ProgressBar value={pokemonWhoFight.life} max={pokemonWhoFight.maxLife}/>
             </PokemonContainer>
             <PokemonsContainer>
               {favorites.map(pokemon => (
-
-                  <ListTeams onClick={()=>changePokemonWhoFight(pokemon)}>
+                  <ListTeams key={pokemon.name} onClick={()=>changePokemonWhoFight(pokemon)}>
                     {pokemon?.life <= 0 ? 
                       (<ImgTeamPokemon src={NoTeamPokemon} />) : 
                       (<ImgTeamPokemon src={TeamPokemon}/>)

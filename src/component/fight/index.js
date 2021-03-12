@@ -5,15 +5,12 @@ import DisplayTeams from './displayTeams'
 import styled from 'styled-components'
 
 
-const Fight = () => {
+const Fight = ({favorites, setFavorites}) => {
     const [arceus, setArceus] = useState();
-    const [arceusMaxLife, setArceusMaxLife] = useState(100);
-    const [arceusLife, setArceusLife] =  useState(100);
-    const [favorites, setFavorites] = useState(localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [] );
+    const [arceusMaxLife, setArceusMaxLife] = useState();
+    const [arceusLife, setArceusLife] =  useState();
     const [isLoading, setLoading] = useState(true);
-    const [pokemonWhoFight, setPokemonWhoFight] = useState(favorites[0])
-    const [pokemonWhoFightLife, setPokemonWhoFightLife] = useState(0)
-    const [pokemonWhoFightMaxLife, setPokemonWhoFightMaxLife] = useState(0)
+    const [pokemonWhoFight, setPokemonWhoFight] = useState(favorites[0]);
     const [FightIsFinish, setFightIsFinish] = useState(false);
     
 
@@ -37,49 +34,75 @@ const Fight = () => {
         setPokemonWhoFight(pokemon);
     }
 
-    const itIsTimeToFight = () => {
-        setArceusLife(arceusLife - pokemonWhoFight.power);
 
-        setPokemonWhoFightLife(pokemonWhoFightLife - arceus?.stats[1]?.base_stat)
+    const itIsTimeToFight = () => {
+        const newArceusLife = arceusLife - pokemonWhoFight.power
+        if (newArceusLife <= 0 ){
+            setArceusLife(0)
+        }
+        else{
+            setArceusLife(newArceusLife);
+            pokemonWhoFight.life = pokemonWhoFight.life - arceus?.stats[1]?.base_stat
+            if(pokemonWhoFight.life <= 0){
+                pokemonWhoFight.life = 0
+            }
+            setPokemonWhoFight(pokemonWhoFight);
+        }
+        
+
     }
 
     const updateFavorites = async () => {
         favorites.map(pokemon => {
             if (pokemon?.name === pokemonWhoFight?.name) {
-                console.log(pokemon?.name);
-                pokemon.life = pokemonWhoFightLife;
+                pokemon.life = pokemonWhoFight.life;
+                setPokemonWhoFight(pokemon);
             }
         })
+        setFavorites(favorites);
     }
 
-    useEffect(() => {
-        updateFavorites();
-
-     }, [pokemonWhoFightLife])
+    const healAllpokemons = () =>{
+        console.log(favorites);
+        favorites.map(pokemon => {
+            pokemon.life = pokemon.maxLife;
+        })
+        setFavorites(favorites);
+        setArceusLife(arceusMaxLife);
+    }
 
 
     useEffect( () => {
         getArceus();
      }, [])
-
+     
      useEffect( () => {
         setArceusLife(arceus?.stats[0]?.base_stat)
         setArceusMaxLife(arceus?.stats[0]?.base_stat)
      }, [arceus])
 
      useEffect( () => {
-        setPokemonWhoFightLife(pokemonWhoFight.life);
-        setPokemonWhoFightMaxLife(pokemonWhoFight.maxLife);
-     }, [pokemonWhoFight])
+        updateFavorites();
+     }, [pokemonWhoFight]);
 
+     useEffect( () => {
+        if (arceusLife <= 0 ) {
+            alert(" Vous avez gagné ");
+        }
+
+     }, [arceusLife])
+
+
+    useEffect( () =>{
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    },[favorites])
+    
     return (
         <div>
             <DisplayArceus arceus={arceus} arceusLife={arceusLife} arceusMaxLife={arceusMaxLife} />
-            <DisplayTeams pokemonWhoFight={pokemonWhoFight}  favorites={favorites} changePokemonWhoFight={changePokemonWhoFight} pokemonWhoFightLife={pokemonWhoFightLife} pokemonWhoFightMaxLife={pokemonWhoFightMaxLife} />
-            {pokemonWhoFight?.life > 0 ? 
-                (<ButtonFight onClick={()=>itIsTimeToFight()}> Attaque </ButtonFight> ) :
-                (<ButtonFight disabled onClick={()=>itIsTimeToFight()}> Attaque </ButtonFight>)
-            }
+            <DisplayTeams pokemonWhoFight={pokemonWhoFight}  favorites={favorites} changePokemonWhoFight={changePokemonWhoFight}  />
+            <ButtonFight disabled={pokemonWhoFight.life <= 0} onClick={()=>itIsTimeToFight()}> Attaque </ButtonFight>
+            <RestartFight disabled={favorites.filter(e => e.life > 0).length > 0 && arceusLife !== 0 } onClick={()=>healAllpokemons()}> Recommencer </RestartFight>
         </div>
     );
 };
@@ -88,4 +111,10 @@ const ButtonFight = styled.button`
     text-align:center;
     width: 25%;
 `
+
+const RestartFight = styled.button`
+    text-align:center;
+    width: 25%;
+`
+
 export default Fight;

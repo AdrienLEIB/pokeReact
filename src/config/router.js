@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import ReactDOM from "react-dom";
 import {
   BrowserRouter as Router,
@@ -13,14 +13,16 @@ import Fight from '../component/fight';
 import Teams from '../component/teams';
 
 const Routes = () => {
+    const [favorites, setFavorites] = useState(localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [] );
+
     // const [isToken, setIsToken] = useState("")
     return(
         <Router>
-            <Header/>
+            <Header favorites={favorites} setFavorites={setFavorites} />
             <Switch>
-                <Route exact path="/"  component={GetPokemons} />
-                <Route path="/fight" component={Fight} />
-                <Route path="/teams" component={Teams} />
+                <Route exact path="/"  component={() => <GetPokemons favorites={favorites} setFavorites={setFavorites}/>} />
+                <Route path="/fight" component={() => <Fight favorites={favorites} setFavorites={setFavorites} />} />
+                <Route path="/teams" component={() => <Teams favorites={favorites} setFavorites={setFavorites} />} />
                 <Redirect to="/"></Redirect>
             </Switch>
         </Router>

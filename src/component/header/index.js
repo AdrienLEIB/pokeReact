@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components'
 import NoFight from '../../img/noFight.png'
 import YesFight from '../../img/yesFight.png'
 import { useHistory } from 'react-router-dom'
 
-const Header = () => {
-    const [favorites, setFavorites] = useState(localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [] );
-    const history = useHistory()
+const Header = ({favorites, setFavorites}) => {
+    const history = useHistory();
+    const [readyToFight, setReadyToFight] = useState(false)
     const redirectToPokemons = () => {
         history.push('/');
     }
@@ -22,6 +22,17 @@ const Header = () => {
     const impossibleToFight = () => {
         alert("Il vous faut au moins un pokemon dans votre équipe pour combattre !")
     }
+    
+    useEffect( () =>{
+        if(favorites.length > 0 ){
+            setReadyToFight(true);
+        }
+        else{
+            setReadyToFight(false);
+        }
+
+    }, [favorites])
+
 
     return (
         <HeaderContainer>
@@ -31,7 +42,7 @@ const Header = () => {
             </AllPokemonsAndTeamsButtonsContainer>
             <FightContainer>
                 <FightButtons >
-                    {favorites.length > 0 ? ( <ImgHeader onClick={redirectToFight} src={YesFight}/>) : 
+                    {readyToFight ? ( <ImgHeader onClick={redirectToFight} src={YesFight}/>) : 
                     ( <ImgHeader onClick={impossibleToFight} src={NoFight}/>)}
                     
                 </FightButtons>
