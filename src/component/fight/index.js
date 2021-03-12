@@ -4,7 +4,7 @@ import DisplayArceus from './displayArceus'
 import DisplayTeams from './displayTeams'
 import styled from 'styled-components'
 import {useDispatch, useSelector} from 'react-redux'
-import {favorites as favoritesActions} from '../../actions' 
+import {favorites as favoritesActions, modal} from '../../actions' 
 
 
 const Fight = () => {
@@ -93,7 +93,8 @@ const Fight = () => {
 
      useEffect( () => {
         if (arceusLife <= 0 ) {
-            alert(" Vous avez gagné ");
+            dispatch(modal.display_modal({title: 'BRAVO', content: 'YES WE DID IT'}))
+            // alert(" Vous avez gagné ");
         }
 
      }, [arceusLife])

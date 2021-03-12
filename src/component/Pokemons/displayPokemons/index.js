@@ -5,10 +5,18 @@ import NoTeamPokemon from '../../../img/noTeamPokemon.png'
 import backgroundDex from '../../../img/pokedex2.png'
 import {AiFillCaretRight, AiFillCaretLeft} from "react-icons/ai";
 import {useDispatch} from 'react-redux'
-import {favorites as favoriteActions} from '../../../actions'
+import {favorites as favoriteActions, modal} from '../../../actions'
 
 const DisplayPokemons = ({pokemons, favorites,  offSet, decrease, increase}) => {
   const dispatch = useDispatch()
+
+  const setUnset = (pokemon) => {
+    if(favorites.length >= 6){
+      dispatch(modal.display_modal({title: 'Erreur', content: '6 Max Habibi'}))
+    }
+    dispatch(favoriteActions.set_unset_favorite(pokemon))
+  }
+
   return (
         <DisplayPokemonContainer>
           <PaginationContainer>
@@ -22,7 +30,7 @@ const DisplayPokemons = ({pokemons, favorites,  offSet, decrease, increase}) => 
               {pokemons.map(pokemon => (
                   <ItemContainer key={pokemon?.name} >
                     <ImgContainer src={`${pokemon?.sprites?.other["official-artwork"]?.front_default}`} />
-                    <ButtonTeam onClick={()=>dispatch(favoriteActions.set_unset_favorite(pokemon))}>
+                    <ButtonTeam onClick={() => setUnset(pokemon)}>
                       {favorites.filter(e => e.name === pokemon?.name).length === 0 ? 
                         (<ImgTeamPokemon src={NoTeamPokemon} />) : 
                         (<ImgTeamPokemon src={TeamPokemon}/>)

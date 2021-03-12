@@ -8,6 +8,7 @@ import {
   Switch
 } from "react-router-dom";
 
+import Modal from '../component/modal'
 import Header from '../component/header';
 import Fight from '../component/fight';
 import Teams from '../component/teams';
@@ -24,6 +25,7 @@ const Routes = () => {
     return(
         <Router>
             <Header />
+            <Modal></Modal>
             <Switch>
                 <Route exact path="/" component={() => <GetPokemons />} />
                 <Route path="/fight" component={() => <Fight />} />
