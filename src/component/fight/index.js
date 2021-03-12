@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
-import DisplayArceus from './displayArceus'
-import DisplayTeams from './displayTeams'
-import styled from 'styled-components'
-import {useDispatch, useSelector} from 'react-redux'
-import {favorites as favoritesActions, modal} from '../../actions' 
-
+import DisplayArceus from './displayArceus';
+import DisplayTeams from './displayTeams';
+import styled from 'styled-components';
+import {useDispatch, useSelector} from 'react-redux';
+import {favorites as favoritesActions, modal} from '../../actions';
+import OstFight from './ostFight';
 
 const Fight = () => {
     const dispatch = useDispatch()
@@ -110,6 +110,7 @@ const Fight = () => {
             <DisplayTeams pokemonWhoFight={pokemonWhoFight}  favorites={favorites} changePokemonWhoFight={changePokemonWhoFight}  />
             <ButtonFight disabled={pokemonWhoFight.life <= 0} onClick={()=>itIsTimeToFight()}> Attaque </ButtonFight>
             <RestartFight disabled={tempFav.filter(e => e.life > 0).length > 0 && arceusLife !== 0 } onClick={()=>healAllpokemons()}> Recommencer </RestartFight>
+            <OstFight />
         </div>
     );
 };
