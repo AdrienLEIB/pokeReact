@@ -1,26 +1,18 @@
 import React from 'react';
+import backgroundDex from '../../../img/pokedex2.png'
 import styled from 'styled-components'
 import TeamPokemon from '../../../img/teamPokemon.png';
 import NoTeamPokemon from '../../../img/noTeamPokemon.png'
-import backgroundDex from '../../../img/pokedex2.png'
-import {AiFillCaretRight, AiFillCaretLeft} from "react-icons/ai";
 
-const DisplayPokemons = ({pokemons, favorites, history, addFav, offSet, decrease, increase}) => {
-  return (
+const DisplayTeams = ({pokemons, removeFav}) => {
+    return (
         <DisplayPokemonContainer>
-          <PaginationContainer>
-              {offSet > 1 ? (<ArrowLeft onClick={decrease}> - </ArrowLeft>) : 
-              ( <div> </div>)}
-              <ParagrapheContainer>{offSet}</ParagrapheContainer>
-                {pokemons.length >= 20 ? ( <ArrowRight onClick={increase}></ArrowRight>) : 
-              ( <div> </div>)}
-          </PaginationContainer>
-          <DataContainer>
+            <DataContainer>
               {pokemons.map(pokemon => (
                   <ItemContainer key={pokemon?.name} >
                     <ImgContainer src={`${pokemon?.sprites?.other["official-artwork"]?.front_default}`} />
-                    <ButtonTeam onClick={()=>addFav(pokemon)}>
-                      {favorites.filter(e => e.name === pokemon?.name).length === 0 ? 
+                    <ButtonTeam onClick={()=>removeFav(pokemon)}>
+                      {pokemons.filter(e => e.name === pokemon?.name).length === 0 ? 
                         (<ImgTeamPokemon src={NoTeamPokemon} />) : 
                         (<ImgTeamPokemon src={TeamPokemon}/>)
                         }
@@ -30,22 +22,9 @@ const DisplayPokemons = ({pokemons, favorites, history, addFav, offSet, decrease
                   
               ))}
           </DataContainer>
-
-    </DisplayPokemonContainer>
+        </DisplayPokemonContainer>
     );
 };
-
-
-const ArrowRight = styled(AiFillCaretRight)`
-  width: 20px;
-  height: 20px;
-  color: white;
-`
-const ArrowLeft = styled(AiFillCaretLeft)`
-  width: 20px;
-  height: 20px;
-  color: white;
-`
 
 const ImgContainer = styled.img`
   width: 150px;
@@ -98,4 +77,5 @@ const ButtonTeam = styled.button`
   color: none;
   border-color: none;
 `
-export default DisplayPokemons;
+
+export default DisplayTeams;

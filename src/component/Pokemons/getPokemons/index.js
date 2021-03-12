@@ -68,7 +68,7 @@ import DisplayPokemons from '../displayPokemons'
             }
 
             if (checkId.length === 0 && favorites.length <= 6) {
-                setFavorites([...favorites, {'name': pokemon.name, 'sprites': pokemon.sprites, 'life': pokemon.stats[0].base_stat, 'maxLife':pokemon.stats[0].base_stat}]);
+                setFavorites([...favorites, {'name': pokemon.name, 'sprites': pokemon.sprites, 'life': pokemon?.stats[0]?.base_stat, 'maxLife':pokemon?.stats[0]?.base_stat, "power": pokemon?.stats[1]?.base_stat}]);
                 
             }
             else{

@@ -1,22 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components'
 import ProgressBar from '../progressBar'
 import TeamPokemon from '../../../img/teamPokemon.png';
-import NoTeamPokemon from '../../../img/noTeamPokemon.png'
+import NoTeamPokemon from '../../../img/noTeamPokemon.png';
 
 
-const DisplayTeams = ({pokemonWhoFight, favorites, changePokemonWhoFight}) => {
-    return (
+const DisplayTeams = ({pokemonWhoFight, favorites, changePokemonWhoFight, pokemonWhoFightLife, pokemonWhoFightMaxLife}) => {
+  useEffect(() => {
+    // console.log(pokemonWhoFightLife);
+ }, [pokemonWhoFightLife])  
+  return (
         <TeamsContainer>
             <PokemonContainer>
                 <ImgContainer src={`${pokemonWhoFight?.sprites?.back_default}`} />
-                <ProgressBar value={100} max={100}/>
+                <ProgressBar value={pokemonWhoFightLife} max={pokemonWhoFightMaxLife}/>
             </PokemonContainer>
             <PokemonsContainer>
               {favorites.map(pokemon => (
 
                   <ListTeams onClick={()=>changePokemonWhoFight(pokemon)}>
-                    {favorites.filter(e => e.name === pokemon?.name).length === 0 ? 
+                    {pokemon?.life <= 0 ? 
                       (<ImgTeamPokemon src={NoTeamPokemon} />) : 
                       (<ImgTeamPokemon src={TeamPokemon}/>)
                       }
@@ -47,10 +50,11 @@ const PokemonContainer = styled.div`
 
 const PokemonsContainer = styled.div`
   height: 300px;
-  text-align: right;
   display: inline;
 `
 const ListTeams = styled.div`
+  display: inline-block;
+  position: right;
 `
 
 const ImgTeamPokemon = styled.img`
