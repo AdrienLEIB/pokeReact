@@ -4,15 +4,15 @@ import styled from 'styled-components'
 import TeamPokemon from '../../../img/teamPokemon.png';
 import NoTeamPokemon from '../../../img/noTeamPokemon.png'
 
-const DisplayTeams = ({pokemons, removeFav}) => {
+const DisplayTeams = ({favorites, removeFav}) => {
     return (
         <DisplayPokemonContainer>
             <DataContainer>
-              {pokemons.map(pokemon => (
+              {favorites.map(pokemon => (
                   <ItemContainer key={pokemon?.name} >
                     <ImgContainer src={`${pokemon?.sprites?.other["official-artwork"]?.front_default}`} />
                     <ButtonTeam onClick={()=>removeFav(pokemon)}>
-                      {pokemons.filter(e => e.name === pokemon?.name).length === 0 ? 
+                      {favorites.filter(e => e.name === pokemon?.name).length === 0 ? 
                         (<ImgTeamPokemon src={NoTeamPokemon} />) : 
                         (<ImgTeamPokemon src={TeamPokemon}/>)
                         }
@@ -58,16 +58,6 @@ const ItemContainer = styled.div`
   margin: 10px
   `
 
-const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: center;
-`
-const ButtonContainer = styled.button`
-  margin: 10px;
-`
-
-const ParagrapheContainer = styled.div`
-`
 
 const ButtonTeam = styled.button`
   text-decoration: none;

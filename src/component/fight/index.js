@@ -9,9 +9,8 @@ const Fight = ({favorites, setFavorites}) => {
     const [arceus, setArceus] = useState();
     const [arceusMaxLife, setArceusMaxLife] = useState();
     const [arceusLife, setArceusLife] =  useState();
-    const [isLoading, setLoading] = useState(true);
+    // const [isLoading, setLoading] = useState(true);
     const [pokemonWhoFight, setPokemonWhoFight] = useState(favorites[0]);
-    const [FightIsFinish, setFightIsFinish] = useState(false);
     
 
 
@@ -23,11 +22,11 @@ const Fight = ({favorites, setFavorites}) => {
         })
         .then(res =>{
             setArceus(res.data);
-            setLoading(false);
+            // setLoading(false);
             
         }).catch(err => {
             console.log(err);
-            setLoading(false);
+            // setLoading(false);
         })
     }
     const changePokemonWhoFight = (pokemon) => {

@@ -5,7 +5,7 @@ import NoTeamPokemon from '../../../img/noTeamPokemon.png'
 import backgroundDex from '../../../img/pokedex2.png'
 import {AiFillCaretRight, AiFillCaretLeft} from "react-icons/ai";
 
-const DisplayPokemons = React.memo(({pokemons, favorites,  addFav, offSet, decrease, increase}) => {
+const DisplayPokemons = ({pokemons, favorites,  addFav, offSet, decrease, increase}) => {
   return (
         <DisplayPokemonContainer>
           <PaginationContainer>
@@ -33,7 +33,7 @@ const DisplayPokemons = React.memo(({pokemons, favorites,  addFav, offSet, decre
 
     </DisplayPokemonContainer>
     );
-});
+};
 
 
 const ArrowRight = styled(AiFillCaretRight)`
@@ -82,9 +82,6 @@ const ItemContainer = styled.div`
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
-`
-const ButtonContainer = styled.button`
-  margin: 10px;
 `
 
 const ParagrapheContainer = styled.div`

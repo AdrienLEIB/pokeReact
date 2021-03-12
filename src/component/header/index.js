@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom'
 const Header = ({favorites, setFavorites}) => {
     const history = useHistory();
     const [readyToFight, setReadyToFight] = useState(false)
+
     const redirectToPokemons = () => {
         history.push('/');
     }
