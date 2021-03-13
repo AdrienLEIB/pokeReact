@@ -15,7 +15,7 @@ const Fight = () => {
     const [arceus, setArceus] = useState();
     const [arceusMaxLife, setArceusMaxLife] = useState();
     const [arceusLife, setArceusLife] =  useState();
-    // const [isLoading, setLoading] = useState(true);
+    const [isLoading, setLoading] = useState(true);
     const [pokemonWhoFight, setPokemonWhoFight] = useState(favorites[0]);
     
 
@@ -28,11 +28,11 @@ const Fight = () => {
         })
         .then(res =>{
             setArceus(res.data);
-            // setLoading(false);
+            setLoading(false);
             
         }).catch(err => {
             console.log(err);
-            // setLoading(false);
+            setLoading(false);
         })
     }
     const changePokemonWhoFight = (pokemon) => {
@@ -104,14 +104,28 @@ const Fight = () => {
         localStorage.setItem('favorites', JSON.stringify(favorites));
     },[favorites])
     
+    if (isLoading){
+        return(<Chargement>Chargement en cours ...</Chargement>)
+    }
     return (
-        <div>
-            <DisplayArceus arceus={arceus} arceusLife={arceusLife} arceusMaxLife={arceusMaxLife} />
-            <DisplayTeams pokemonWhoFight={pokemonWhoFight}  favorites={favorites} changePokemonWhoFight={changePokemonWhoFight}  />
-            <ButtonFight disabled={pokemonWhoFight.life <= 0} onClick={()=>itIsTimeToFight()}> Attaque </ButtonFight>
-            <RestartFight disabled={tempFav.filter(e => e.life > 0).length > 0 && arceusLife !== 0 } onClick={()=>healAllpokemons()}> Recommencer </RestartFight>
-            <OstFight />
-        </div>
+        <>
+        {arceus ? 
+            <>
+                <DisplayArceus arceus={arceus} arceusLife={arceusLife} arceusMaxLife={arceusMaxLife} />
+                <DisplayTeams pokemonWhoFight={pokemonWhoFight}  favorites={favorites} changePokemonWhoFight={changePokemonWhoFight}  />
+                <ButtonFight disabled={pokemonWhoFight.life <= 0} onClick={()=>itIsTimeToFight()}> Attaque </ButtonFight>
+                <RestartFight disabled={tempFav.filter(e => e.life > 0).length > 0 && arceusLife !== 0 } onClick={()=>healAllpokemons()}> Recommencer </RestartFight>
+                <OstFight />
+            </>
+            :
+            <>
+                <NoArceus> 
+                <PNoArceus>L'appel api n'a pas fonctionné. </PNoArceus>
+                <ButtonNoArceus onClick={getArceus}> Retry </ButtonNoArceus>
+                </NoArceus>
+            </>
+            }
+        </>
     );
 };
 
@@ -124,5 +138,22 @@ const RestartFight = styled.button`
     text-align:center;
     width: 25%;
 `
+const Chargement = styled.p`
+  font-size: 20px;
+  text-align: center;
+  margin: 10px
+`
+const NoArceus = styled.div`
+  text-align: center;
+  margin: 10px
+  `
+
+const PNoArceus = styled.p`
+    text-align: center;
+    margin: 10px
+`
+const ButtonNoArceus = styled.button`
+`
+
 
 export default Fight;

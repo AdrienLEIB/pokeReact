@@ -10,13 +10,12 @@ import Header from '../../header';
 import {pokemons} from '../../../actions'
 
 const GetPokemons = React.memo(({}) => {
-    const pokemonList = useSelector(state=> state.pokemons.list)
-    const favorites = useSelector(state=> state.favorites.pokemons)
-    const dispatch = useDispatch()
-    console.log(favorites)
+    const pokemonList = useSelector(state=> state.pokemons.list);
+    const favorites = useSelector(state=> state.favorites.pokemons);
+    const dispatch = useDispatch();
     const [basePokemons, setBasePokemons] = useState([]);
     // const [pokemons, setPokemons] = useState([]);
-    const [offSet, setOffSet] = useState(0)
+    const [offSet, setOffSet] = useState(0);
     const [isLoading, setLoading] = useState(true);
     // const [favorites, setFavorites] = useState(localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : [] );
     useEffect(()=>{
@@ -50,7 +49,8 @@ const GetPokemons = React.memo(({}) => {
         )
         const cleanpokemons = await Promise.resolve(promisepokemons);
         // setPokemons([...cleanpokemons])
-        dispatch( pokemons.display_pokemon(cleanpokemons))
+        dispatch( pokemons.display_pokemon(cleanpokemons));
+        setLoading(false);
     }
 
     const getPokemonDetail = (u) =>{
@@ -87,11 +87,11 @@ const GetPokemons = React.memo(({}) => {
     // }
 
     const decrease = () => {
-        setOffSet(offSet - 20)
+        setOffSet(offSet - 20);
     }
     
     const increase = () => {
-        setOffSet(offSet + 20)
+        setOffSet(offSet + 20);
     }
 
 
@@ -104,12 +104,40 @@ const GetPokemons = React.memo(({}) => {
     }, [basePokemons])
 
 
-
+    if (isLoading){
+        return(<Chargement>Chargement en cours ...</Chargement>)
+    }
     return (
+
         <>
+        {basePokemons[0] ? 
             <DisplayPokemons pokemons={pokemonList} favorites={favorites}  offSet={offSet} decrease={decrease} increase={increase} />
+            :
+            <NoPokemons> 
+                <PNoPokemons>L'appel api n'a pas fonctionné. </PNoPokemons>
+                <ButtonNoPokemons onClick={getPokemons}> Retry </ButtonNoPokemons>
+            </NoPokemons>
+        }
         </>
     );
 });
+
+
+const Chargement = styled.p`
+  font-size: 20px;
+  text-align: center;
+  margin: 10px
+`
+const NoPokemons = styled.div`
+  text-align: center;
+  margin: 10px
+  `
+
+const PNoPokemons = styled.p`
+    text-align: center;
+    margin: 10px
+`
+const ButtonNoPokemons = styled.button`
+`
 
 export default GetPokemons;

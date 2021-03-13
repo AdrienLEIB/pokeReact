@@ -11,10 +11,11 @@ const DisplayPokemons = ({pokemons, favorites,  offSet, decrease, increase}) => 
   const dispatch = useDispatch()
 
   const setUnset = (pokemon) => {
-    if(favorites.length >= 6){
-      dispatch(modal.display_modal({title: 'Erreur', content: '6 Max Habibi'}))
+    const checkId =  favorites.filter(e => e.name === pokemon.name);
+    if(favorites.length >= 6 && checkId.length === 0){
+      dispatch(modal.display_modal({title: 'Erreur', content: '6 Max Habibi'}));
     }
-    dispatch(favoriteActions.set_unset_favorite(pokemon))
+    dispatch(favoriteActions.set_unset_favorite(pokemon));
   }
 
   return (

@@ -13,12 +13,13 @@ import Header from '../component/header';
 import Fight from '../component/fight';
 import Teams from '../component/teams';
 import GetPokemons from '../component/Pokemons/getPokemons';
-import {useDispatch, useSelector} from 'react-redux'
-import {favorites as favoritesActions} from '../actions' 
+import PrivateRoute from '../component/utils/privateRoute';
+import {useDispatch, useSelector} from 'react-redux';
+import {favorites as favoritesActions} from '../actions';
 
 const Routes = () => {
 //  const dispatch = useDispatch()
-//  const favorites = useSelector(state => state.favorites.pokemons)
+    const favorites = useSelector(state => state.favorites.pokemons)
 //  const setFavorites = fav => dispatch(favoritesActions.set_unset_favorite(fav))
     
 
@@ -28,7 +29,7 @@ const Routes = () => {
             <Modal></Modal>
             <Switch>
                 <Route exact path="/" component={() => <GetPokemons />} />
-                <Route path="/fight" component={() => <Fight />} />
+                <PrivateRoute path="/fight" favorites={favorites} component={() => <Fight />} />
                 <Route path="/teams" component={() => <Teams />} />
                 <Redirect to="/" component={() => <GetPokemons />} ></Redirect>
             </Switch>

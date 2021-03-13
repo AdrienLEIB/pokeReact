@@ -15,16 +15,16 @@ import {display_modal} from '../actions/modal'
     if (state.pokemons.length >= 6 && checkId.length === 0){
       //alert("Attention !! Votre équipe est déjà complète.");
       return state.pokemons
-  }
+    }
 
   if (checkId.length === 0 && state.pokemons.length < 6) {
       return [...state.pokemons, 
         {'name': payload.name, 'sprites': payload.sprites, 'life': payload?.stats[0]?.base_stat, 'maxLife':payload?.stats[0]?.base_stat, "power": payload?.stats[1]?.base_stat}]
-} else{
-    const newFavorites = state.pokemons.filter(h => h.name !==  payload.name);
-    return [...newFavorites]
-        
-}}
+  } else{
+      const newFavorites = state.pokemons.filter(h => h.name !==  payload.name);
+      return [...newFavorites]
+          
+  }}
 
   export default (state = initialState, action) => {
     switch (action.type) {
