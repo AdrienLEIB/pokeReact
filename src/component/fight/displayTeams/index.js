@@ -1,15 +1,21 @@
-import React, {} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components'
 import ProgressBar from '../progressBar'
 import TeamPokemon from '../../../img/teamPokemon.png';
 import NoTeamPokemon from '../../../img/noTeamPokemon.png';
-
+import { motion } from 'framer-motion';
 
 const DisplayTeams = ({pokemonWhoFight, favorites, changePokemonWhoFight}) => {
+  const [animate, setAnimate] = useState('initial');
+  useEffect(() => {
+    setInterval(() =>{
+      setAnimate(animate === 'initial' ? 'animated' : 'initial') 
+    })
+  }, [animate]) 
   return (
         <TeamsContainer>
             <PokemonContainer>
-                <ImgContainer src={`${pokemonWhoFight?.sprites?.back_default}`} />
+                <ImgContainer variants={variantImgContainer} initial="initial" animate="animated" src={`${pokemonWhoFight?.sprites?.back_default}`} />
                 <ProgressBar value={pokemonWhoFight.life} max={pokemonWhoFight.maxLife}/>
             </PokemonContainer>
             <PokemonsContainer>
@@ -33,10 +39,14 @@ const TeamsContainer = styled.div`
   width:100%;
   height: 400px;
 `
-const ImgContainer = styled.img`
+const ImgContainer =  styled(motion.img)`
   width: 200px;
   position: center;
 `
+const variantImgContainer = {
+  initial: {x: -150000},
+  animated: {x: 0}
+}
 
 const PokemonContainer = styled.div`
   height: 300px;
@@ -56,5 +66,7 @@ const ListTeams = styled.div`
 const ImgTeamPokemon = styled.img`
   width: 20px;
 `
+
+
 
 export default DisplayTeams;
