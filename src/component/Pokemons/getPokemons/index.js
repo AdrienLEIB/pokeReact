@@ -4,9 +4,6 @@ import styled from 'styled-components'
 import {useHistory} from 'react-router-dom'; 
 import DisplayPokemons from '../displayPokemons'
 import {useSelector, useDispatch} from 'react-redux'
-
-import Header from '../../header';
-
 import {pokemons} from '../../../actions'
 
 const GetPokemons = React.memo(({}) => {

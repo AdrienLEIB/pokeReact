@@ -19,7 +19,7 @@ import {favorites as favoritesActions} from '../actions';
 
 const Routes = () => {
 //  const dispatch = useDispatch()
-    const favorites = useSelector(state => state.favorites.pokemons)
+    // const favorites = useSelector(state => state.favorites.pokemons)
 //  const setFavorites = fav => dispatch(favoritesActions.set_unset_favorite(fav))
     
 
@@ -29,7 +29,7 @@ const Routes = () => {
             <Modal></Modal>
             <Switch>
                 <Route exact path="/" component={() => <GetPokemons />} />
-                <PrivateRoute path="/fight" favorites={favorites} component={() => <Fight />} />
+                <PrivateRoute path="/fight"  component={() => <Fight />} />
                 <Route path="/teams" component={() => <Teams />} />
                 <Redirect to="/" component={() => <GetPokemons />} ></Redirect>
             </Switch>
