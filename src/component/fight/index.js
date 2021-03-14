@@ -134,7 +134,7 @@ const Fight = () => {
             <ContainerFight>
                 <DisplayArceus arceus={arceus} arceusLife={arceusLife} arceusMaxLife={arceusMaxLife} animate={animateArceus} />
                 <DisplayTeams pokemonWhoFight={pokemonWhoFight}  favorites={favorites} changePokemonWhoFight={changePokemonWhoFight} animate={animateTeams} />
-                <ButtonFight disabled={pokemonWhoFight.life <= 0} onClick={()=>itIsTimeToFight()}> Attaque </ButtonFight>
+                <ButtonFight disabled={pokemonWhoFight.life <= 0 || arceusLife <= 0} onClick={()=>itIsTimeToFight()}> Attaque </ButtonFight>
                 <RestartFight disabled={tempFav.filter(e => e.life > 0).length > 0 && arceusLife !== 0 } onClick={()=>healAllpokemons()}> Recommencer </RestartFight>
                 <OstFight />
             </ContainerFight>
@@ -152,12 +152,13 @@ const Fight = () => {
 
 const ButtonFight = styled.button`
     text-align:center;
-    width: 25%;
+    width: 30%;
+    margin: 2px;
 `
 
 const RestartFight = styled.button`
     text-align:center;
-    width: 25%;
+    width: 30%;
 `
 const Chargement = styled.p`
   font-size: 20px;
