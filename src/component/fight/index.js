@@ -53,6 +53,7 @@ const Fight = () => {
         }
         else{
             setArceusLife(newArceusLife);
+            setAnimateArceus('attack');
             pokemonWhoFight.life = pokemonWhoFight.life - arceus?.stats[1]?.base_stat
             if(pokemonWhoFight.life <= 0){
                 pokemonWhoFight.life = 0
