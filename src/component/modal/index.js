@@ -42,6 +42,7 @@ const ModalBackground = styled.div`
     align-items: center;
     background-color: #00000063;
     height: 100vh;
+    z-index: 9999;
 `
 
 const ModalContainer = styled.div`

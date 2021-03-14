@@ -1,8 +1,6 @@
 ## Liste des modules node à installer:
 - npm install
-- yarn add axios
-- yarn add styled-components
-- yarn add react-dom
+- yarn install
 
 
 ## Comment lancer le projet
