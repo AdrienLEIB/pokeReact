@@ -5,17 +5,11 @@ import TeamPokemon from '../../../img/teamPokemon.png';
 import NoTeamPokemon from '../../../img/noTeamPokemon.png';
 import { motion } from 'framer-motion';
 
-const DisplayTeams = ({pokemonWhoFight, favorites, changePokemonWhoFight}) => {
-  const [animate, setAnimate] = useState('initial');
-  useEffect(() => {
-    setInterval(() =>{
-      setAnimate(animate === 'initial' ? 'animated' : 'initial') 
-    })
-  }, [animate]) 
+const DisplayTeams = ({pokemonWhoFight, favorites, changePokemonWhoFight, animate}) => {
   return (
         <TeamsContainer>
             <PokemonContainer>
-                <ImgContainer variants={variantImgContainer} initial="initial" animate="animated" src={`${pokemonWhoFight?.sprites?.back_default}`} />
+                <ImgContainer variants={variantImgContainer} animate={animate} src={`${pokemonWhoFight?.sprites?.back_default}`} />
                 <ProgressBar value={pokemonWhoFight.life} max={pokemonWhoFight.maxLife}/>
             </PokemonContainer>
             <PokemonsContainer>
@@ -44,8 +38,10 @@ const ImgContainer =  styled(motion.img)`
   position: center;
 `
 const variantImgContainer = {
-  initial: {x: -150000},
-  animated: {x: 0}
+  initial: {x: 0, y:0},
+  // animated: {x: 120, y:-120},
+  animated: {x: 20, y:5},
+  attack: {x: 120, y:-120}
 }
 
 const PokemonContainer = styled.div`

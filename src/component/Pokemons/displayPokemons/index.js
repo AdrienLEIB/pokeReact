@@ -88,7 +88,6 @@ const ItemContainer = styled.div`
   position:center;
   font-size: 20px;
   text-align: center;
-  margin: 10px
   `
 
 const PaginationContainer = styled.div`

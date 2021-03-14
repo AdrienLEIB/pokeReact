@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {favorites as favoritesActions, modal} from '../../actions';
 import OstFight from './ostFight';
+import CombatDraw from '../../img/backgroundfight.png';
 
 const Fight = () => {
     const dispatch = useDispatch()
@@ -18,6 +19,10 @@ const Fight = () => {
     const [isLoading, setLoading] = useState(true);
     const [pokemonWhoFight, setPokemonWhoFight] = useState(favorites[0]);
     
+    const [animateTeams, setAnimateTeams] = useState('initial');
+
+    const [animateArceus, setAnimateArceus] = useState('initial');
+
 
 
 
@@ -41,6 +46,7 @@ const Fight = () => {
 
 
     const itIsTimeToFight = () => {
+        setAnimateTeams('attack');
         const newArceusLife = arceusLife - pokemonWhoFight.power
         if (newArceusLife <= 0 ){
             setArceusLife(0)
@@ -53,6 +59,7 @@ const Fight = () => {
             }
             setPokemonWhoFight(pokemonWhoFight);
         }
+        // setAnimateTeams('initial');
         
 
     }
@@ -103,20 +110,34 @@ const Fight = () => {
     useEffect( () =>{
         localStorage.setItem('favorites', JSON.stringify(favorites));
     },[favorites])
-    
+
+
+    useEffect(() => {
+        setTimeout(() =>{
+          setAnimateArceus(animateArceus === 'initial' ? 'animated' : 'initial') 
+        }, 500)
+      }, [animateArceus])
+
+      useEffect(() => {
+        setTimeout(() =>{
+          setAnimateTeams(animateTeams === 'initial' ? 'animated' : 'initial') 
+        }, 500)
+      }, [animateTeams])
+
+      
     if (isLoading){
         return(<Chargement>Chargement en cours ...</Chargement>)
     }
     return (
         <>
         {arceus ? 
-            <>
-                <DisplayArceus arceus={arceus} arceusLife={arceusLife} arceusMaxLife={arceusMaxLife} />
-                <DisplayTeams pokemonWhoFight={pokemonWhoFight}  favorites={favorites} changePokemonWhoFight={changePokemonWhoFight}  />
+            <ContainerFight>
+                <DisplayArceus arceus={arceus} arceusLife={arceusLife} arceusMaxLife={arceusMaxLife} animate={animateArceus} />
+                <DisplayTeams pokemonWhoFight={pokemonWhoFight}  favorites={favorites} changePokemonWhoFight={changePokemonWhoFight} animate={animateTeams} />
                 <ButtonFight disabled={pokemonWhoFight.life <= 0} onClick={()=>itIsTimeToFight()}> Attaque </ButtonFight>
                 <RestartFight disabled={tempFav.filter(e => e.life > 0).length > 0 && arceusLife !== 0 } onClick={()=>healAllpokemons()}> Recommencer </RestartFight>
                 <OstFight />
-            </>
+            </ContainerFight>
             :
             <>
                 <NoArceus> 
@@ -141,16 +162,18 @@ const RestartFight = styled.button`
 const Chargement = styled.p`
   font-size: 20px;
   text-align: center;
-  margin: 10px
 `
 const NoArceus = styled.div`
   text-align: center;
-  margin: 10px
   `
+
+const ContainerFight = styled.div`
+    background-image: url(${CombatDraw});
+    background-size: cover;
+`
 
 const PNoArceus = styled.p`
     text-align: center;
-    margin: 10px
 `
 const ButtonNoArceus = styled.button`
 `
