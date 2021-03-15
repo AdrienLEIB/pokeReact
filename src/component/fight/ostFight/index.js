@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Fightost from '../../../music/fightost.mp3';
-import { BsFillPlayFill, BsFillPauseFill} from "react-icons/bs";
+import { FiVolumeX, FiVolume2 } from 'react-icons/fi'
 import styled from 'styled-components';
 
 const OstFight = () => {
@@ -18,7 +18,7 @@ const OstFight = () => {
     return (
     
     <ButtonSound onClick={() => set_unset_sound()}>
-        {playing ? (<OffSound/>) : (<OnSound/>)
+        {playing ? (<OnSound/>) : (<OffSound/>)
         }
     </ButtonSound>
         
@@ -35,9 +35,15 @@ const ButtonSound = styled.button`
   border-color: none;
 `
 
-const OnSound = styled(BsFillPlayFill)`
+const OnSound = styled(FiVolume2)`
+    color: #ffffff;
+    width: 19px;
+    height: 19px;
 `
-const OffSound = styled(BsFillPauseFill)`
+const OffSound = styled(FiVolumeX)`
+    color: #ffffff;
+    width: 19px;
+    height: 19px;
 `
 
 export default OstFight;
