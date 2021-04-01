@@ -16,3 +16,8 @@
 
 ## Mise en prod
 - https://pokefightreact.herokuapp.com/
+
+
+## Easter EGG
+- ost pokemon fight red -> click on button volume
+- animation in fight
