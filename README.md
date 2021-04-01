@@ -1,4 +1,4 @@
-## Llist of node modules to install
+## List of node modules to install
 - yarn install or npm install
 
 
