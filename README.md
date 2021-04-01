@@ -1,19 +1,19 @@
-## Liste des modules node à installer:
+## Llist of node modules to install
 - yarn install or npm install
 
 
-## Comment lancer le projet
-- placer vous à la racine du projet
+## How to Start the project
+- place yourself at the root of the project
 - yarn start
 
 
-## Liste des routes disponibles
-- / -> affiche l'ensemble des pokémons
-- /teams -> affiche l'équipe
-- /fight -> lance le combat contre arceus
+## List of available routes
+- / -> Display all pokemons
+- /teams -> Display your team
+- /fight -> start the fight vs Arceus
 
 
-## Mise en prod
+## Production
 - https://pokefightreact.herokuapp.com/
 
 
