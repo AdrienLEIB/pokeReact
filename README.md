@@ -1,11 +1,10 @@
 ## Liste des modules node à installer:
-- npm install
-- yarn install
+- yarn install or npm install
 
 
 ## Comment lancer le projet
 - placer vous à la racine du projet
-- yarn startCancel Changes
+- yarn start
 
 
 ## Liste des routes disponibles
